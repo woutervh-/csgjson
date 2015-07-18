@@ -1,3 +1,7 @@
+/**
+ * Copyright 2015 Wouter van Heeswijk
+ */
+
 require.config({
     paths: {
         text: "//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text",

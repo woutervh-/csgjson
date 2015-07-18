@@ -1,3 +1,7 @@
+/**
+ * Copyright 2015 Wouter van Heeswijk
+ */
+
 define(
     ["gl", "shaders/manager"],
     function (gl, shaderManager) {

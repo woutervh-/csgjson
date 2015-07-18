@@ -1,3 +1,7 @@
+/**
+ * Copyright 2015 Wouter van Heeswijk
+ */
+
 define(["gl", "assets/triangle"], function (gl, triangle) {
     var mvMatrix = mat4.create();
     var pMatrix = mat4.create();

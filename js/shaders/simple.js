@@ -1,3 +1,7 @@
+/**
+ * Copyright 2015 Wouter van Heeswijk
+ */
+
 define(
     ["gl", "shaders/loader", "text!shaders/simple.vertex.glsl", "text!shaders/simple.fragment.glsl"],
     function (gl, loader, vertexShaderCode, fragmentShaderCode) {

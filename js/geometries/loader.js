@@ -1,3 +1,7 @@
+/**
+ * Copyright 2015 Wouter van Heeswijk
+ */
+
 define(["geometries/triangles"], function (triangles) {
         return {
             load: function (asset) {

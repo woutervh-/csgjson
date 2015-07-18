@@ -1,3 +1,7 @@
+/**
+ * Copyright 2015 Wouter van Heeswijk
+ */
+
 define(
     ["shaders/simple", "shaders/color"],
     function (simple, color) {

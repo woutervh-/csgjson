@@ -1,3 +1,7 @@
+/**
+ * Copyright 2015 Wouter van Heeswijk
+ */
+
 attribute vec3 position;
 attribute vec4 color;
 
