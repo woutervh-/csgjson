@@ -92,9 +92,13 @@ define(
                     gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
                     bindFunctions.push(function (shaderInfo) {
-                        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-                        gl.vertexAttribPointer(shaderInfo.attributes.position.index, asset.vertexSize, gl.FLOAT, false, 0, 0);
-                        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                        if (shaderInfo.attributes.hasOwnProperty("position")) {
+                            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+                            gl.vertexAttribPointer(shaderInfo.attributes.position.index, asset.vertexSize, gl.FLOAT, false, 0, 0);
+                            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                        } else {
+                            console.warn("Vertices property is present in asset but is not supported by the specified shader");
+                        }
                     });
                 }
 
@@ -110,9 +114,13 @@ define(
                     gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
                     bindFunctions.push(function (shaderInfo) {
-                        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-                        gl.vertexAttribPointer(shaderInfo.attributes.color.index, asset.colorSize, gl.FLOAT, false, 0, 0);
-                        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                        if (shaderInfo.attributes.hasOwnProperty("color")) {
+                            gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+                            gl.vertexAttribPointer(shaderInfo.attributes.color.index, asset.colorSize, gl.FLOAT, false, 0, 0);
+                            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+                        } else {
+                            console.warn("Colors property is present in asset but is not supported by the specified shader");
+                        }
                     });
                 }
 

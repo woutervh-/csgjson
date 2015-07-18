@@ -1,6 +1,6 @@
 {
   "type": "jr::geometry::triangles",
-  "shader": "jr::shader::simple",
+  "shader": "jr::shader::color",
   "count": 1,
   "vertexSize": 3,
   "colorSize": 4,
