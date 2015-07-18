@@ -1,0 +1,28 @@
+{
+  "type": "jr::geometry::triangle-strip",
+  "shader": "jr::shader::simple",
+  "count": 2,
+  "vertexSize": 3,
+  "vertices": [
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      -1.0,
+      -1.0,
+      0.0
+    ],
+    [
+      1.0,
+      -1.0,
+      0.0
+    ],
+    [
+      0.0,
+      -2.0,
+      0.0
+    ]
+  ]
+}

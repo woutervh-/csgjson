@@ -2,7 +2,9 @@
  * Copyright 2015 Wouter van Heeswijk
  */
 
-define(["geometries/triangles"], function (triangles) {
+define(
+    ["geometries/triangles", "geometries/triangle-strip"],
+    function (triangles, triangleStrip) {
         return {
             load: function (asset) {
                 try {
@@ -10,6 +12,9 @@ define(["geometries/triangles"], function (triangles) {
                         case "jr::geometry::triangles":
                             triangles.verify(asset);
                             return triangles.create(asset);
+                        case "jr::geometry::triangle-strip":
+                            triangleStrip.verify(asset);
+                            return triangleStrip.create(asset);
                         default:
                             throw new Error("Unsupported asset type: '" + asset.type + "'");
                     }

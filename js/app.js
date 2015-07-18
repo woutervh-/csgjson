@@ -3,8 +3,8 @@
  */
 
 define(
-    ["gl", "assets/triangle"],
-    function (gl, triangle) {
+    ["gl", "assets/triangle-strip"],
+    function (gl, asset) {
         var mvMatrix = mat4.create();
         var pMatrix = mat4.create();
 
@@ -14,11 +14,11 @@ define(
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        // Render triangle
-        var shader = triangle.shader;
+        // Render asset
+        var shader = asset.shader;
         shader.uniforms.projection = pMatrix;
         shader.uniforms.modelView = mvMatrix;
-        shader.render([triangle]);
+        shader.render([asset]);
 
         if (gl.getError() != 0) {
             console.log("WebGL generated error code: " + gl.getError());
