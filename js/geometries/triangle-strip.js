@@ -3,8 +3,8 @@
  */
 
 define(
-    ["gl", "shaders/manager"],
-    function (gl, shaderManager) {
+    ["gl", "shaders/manager", "geometries/buffer-binder"],
+    function (gl, shaderManager, bufferBinder) {
         return {
             verify: function (asset) {
                 // For the verification of the number of triangles
@@ -39,37 +39,19 @@ define(
             create: function (asset) {
                 // Configuration
                 var trianglesCount = asset.count;
-                var bindFunctions = [];
+                var binder = bufferBinder.create();
 
                 // Flatten vertices and add draw function (if present)
                 if (asset.hasOwnProperty("vertexSize")) {
                     var vertices = [].concat.apply([], asset.vertices);
-
-                    var vertexBuffer = gl.createBuffer();
-                    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
-                    bindFunctions.push(function (shaderInfo) {
-                        if (shaderInfo.attributes.hasOwnProperty("position")) {
-                            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-                            gl.vertexAttribPointer(shaderInfo.attributes.position.index, asset.vertexSize, gl.FLOAT, false, 0, 0);
-                            gl.bindBuffer(gl.ARRAY_BUFFER, null);
-                        } else {
-                            console.warn("Vertices property is present in asset but is not supported by the specified shader");
-                        }
-                    });
+                    binder.add(vertices, asset.vertexSize, "position");
                 }
 
                 return {
                     shader: shaderManager.getByName(asset.shader),
 
                     draw: function (shaderInfo) {
-                        for (var i = 0; i < bindFunctions.length; i++) {
-                            var bindFunction = bindFunctions[i];
-                            bindFunction(shaderInfo);
-                        }
-
+                        binder.bindAll(shaderInfo);
                         gl.drawArrays(gl.TRIANGLE_STRIP, 0, trianglesCount + 2);
                     }
                 };
