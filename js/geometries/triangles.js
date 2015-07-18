@@ -1,6 +1,6 @@
 define(["gl"], function (gl) {
     return {
-        create: function (asset) {
+        verify: function (asset) {
             // Verify number of triangles
             var expectedTrianglesCount = asset.count;
             var actualTrianglesCount = asset.triangles.length;
@@ -47,6 +47,13 @@ define(["gl"], function (gl) {
                     }
                 }
             }
+        },
+
+        create: function (asset) {
+            // Configuration
+            var trianglesCount = asset.count;
+            var vertexSize = asset.vertexSize;
+            var colorSize = asset.colorSize;
 
             // Flatten vertices and colors
             var vertices = [].concat.apply([], asset.triangles.map(function (triangle) {
@@ -69,14 +76,14 @@ define(["gl"], function (gl) {
             return {
                 draw: function (shaderInfo) {
                     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-                    gl.vertexAttribPointer(shaderInfo.attributes.position.index, expectedVertexSize, gl.FLOAT, false, 0, 0);
+                    gl.vertexAttribPointer(shaderInfo.attributes.position.index, vertexSize, gl.FLOAT, false, 0, 0);
                     gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
                     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-                    gl.vertexAttribPointer(shaderInfo.attributes.color.index, expectedColorSize, gl.FLOAT, false, 0, 0);
+                    gl.vertexAttribPointer(shaderInfo.attributes.color.index, colorSize, gl.FLOAT, false, 0, 0);
                     gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-                    gl.drawArrays(gl.TRIANGLES, 0, actualTrianglesCount * 3);
+                    gl.drawArrays(gl.TRIANGLES, 0, trianglesCount * 3);
                 }
             };
         }

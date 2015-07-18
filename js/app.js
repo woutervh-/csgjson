@@ -1,4 +1,4 @@
-define(["gl", "geometries/triangle", "shaders/color"], function (gl, triangle, shader) {
+define(["gl", "assets/triangle", "shaders/color"], function (gl, triangle, shader) {
     var mvMatrix = mat4.create();
     var pMatrix = mat4.create();
 
