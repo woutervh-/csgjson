@@ -1,4 +1,4 @@
-define(["gl", "triangle", "shaders/simple"], function (gl, triangle, shader) {
+define(["gl", "geometries/triangle", "shaders/simple"], function (gl, triangle, shader) {
     var mvMatrix = mat4.create();
     var pMatrix = mat4.create();
 
@@ -8,11 +8,12 @@ define(["gl", "triangle", "shaders/simple"], function (gl, triangle, shader) {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    gl.useProgram(shader);
+    shader.use();
+    shader.attributes.position.set(triangle);
+    shader.uniforms.projection.set(pMatrix);
+    shader.uniforms.modelView.set(mvMatrix);
+
     gl.bindBuffer(gl.ARRAY_BUFFER, triangle);
-    gl.vertexAttribPointer(shader.vertexPosition, triangle.itemSize, gl.FLOAT, false, 0, 0);
-    gl.uniformMatrix4fv(shader.pMatrix, false, pMatrix);
-    gl.uniformMatrix4fv(shader.mvMatrix, false, mvMatrix);
     gl.drawArrays(gl.TRIANGLES, 0, triangle.numItems);
 
     if (gl.getError() != 0) {

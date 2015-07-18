@@ -3,14 +3,37 @@ define(
     function (gl, loader, vertexShaderCode, fragmentShaderCode) {
         var program = loader.load(vertexShaderCode, fragmentShaderCode);
 
-        gl.useProgram(program);
+        var attributePosition = gl.getAttribLocation(program, "position");
+        gl.enableVertexAttribArray(attributePosition);
 
-        program.vertexPosition = gl.getAttribLocation(program, "vertexPosition");
-        gl.enableVertexAttribArray(program.vertexPosition);
+        var uniformProjection = gl.getUniformLocation(program, "projection");
+        var uniformModelView = gl.getUniformLocation(program, "modelView");
 
-        program.pMatrix = gl.getUniformLocation(program, "pMatrix");
-        program.mvMatrix = gl.getUniformLocation(program, "mvMatrix");
+        return {
+            use: function () {
+                gl.useProgram(program);
+            },
 
-        return program;
+            attributes: {
+                position: {
+                    set: function (geometry) {
+                        gl.vertexAttribPointer(attributePosition, geometry.itemSize, gl.FLOAT, false, 0, 0);
+                    }
+                }
+            },
+
+            uniforms: {
+                projection: {
+                    set: function (projectionMatrix) {
+                        gl.uniformMatrix4fv(uniformProjection, false, projectionMatrix);
+                    }
+                },
+                modelView: {
+                    set: function (modelViewMatrix) {
+                        gl.uniformMatrix4fv(uniformModelView, false, modelViewMatrix);
+                    }
+                }
+            }
+        };
     }
 );
