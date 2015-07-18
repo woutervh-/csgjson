@@ -1,6 +1,4 @@
-define(
-    ["gl", "geometries/triangles"],
-    function (gl, triangles) {
+define(["geometries/triangles"], function (triangles) {
         return {
             load: function (asset) {
                 switch (asset.type) {

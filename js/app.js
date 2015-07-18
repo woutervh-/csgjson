@@ -1,4 +1,4 @@
-define(["gl", "assets/triangle", "shaders/color"], function (gl, triangle, shader) {
+define(["gl", "assets/triangle"], function (gl, triangle) {
     var mvMatrix = mat4.create();
     var pMatrix = mat4.create();
 
@@ -8,6 +8,8 @@ define(["gl", "assets/triangle", "shaders/color"], function (gl, triangle, shade
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    // Render triangle
+    var shader = triangle.shader;
     shader.uniforms.projection = pMatrix;
     shader.uniforms.modelView = mvMatrix;
     shader.render([triangle]);
