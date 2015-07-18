@@ -42,7 +42,7 @@ define(
                 var trianglesCount = asset.count;
                 var binder = bufferBinder.create(shader);
 
-                // Flatten vertices and add draw function (if present)
+                // Flatten vertices and add bind function (if present)
                 if (asset.hasOwnProperty("vertexSize")) {
                     var vertices = [].concat.apply([], asset.vertices);
                     binder.add(vertices, asset.vertexSize, "position");

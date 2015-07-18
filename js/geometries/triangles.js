@@ -81,7 +81,7 @@ define(
                 var trianglesCount = asset.count;
                 var binder = bufferBinder.create(shader);
 
-                // Flatten vertices and add draw function (if present)
+                // Flatten vertices and add bind function (if present)
                 if (asset.hasOwnProperty("vertexSize")) {
                     var vertices = [].concat.apply([], asset.vertices.map(function (triangle) {
                         return [].concat.apply([], triangle);
@@ -89,7 +89,7 @@ define(
                     binder.add(vertices, asset.vertexSize, "position");
                 }
 
-                // Flatten colors and add draw function (if present)
+                // Flatten colors and add bind function (if present)
                 if (asset.hasOwnProperty("colorSize")) {
                     var colors = [].concat.apply([], asset.colors.map(function (triangle) {
                         return [].concat.apply([], triangle);
