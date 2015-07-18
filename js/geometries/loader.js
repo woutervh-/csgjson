@@ -7,19 +7,23 @@ define(
     function (triangles, triangleStrip) {
         return {
             load: function (asset) {
-                try {
-                    switch (asset.type) {
-                        case "jr::geometry::triangles":
+                switch (asset.type) {
+                    case "jr::geometry::triangles":
+                        try {
                             triangles.verify(asset);
-                            return triangles.create(asset);
-                        case "jr::geometry::triangle-strip":
+                        } catch (e) {
+                            throw new Error("Verification of triangles asset failed: " + e.message);
+                        }
+                        return triangles.create(asset);
+                    case "jr::geometry::triangle-strip":
+                        try {
                             triangleStrip.verify(asset);
-                            return triangleStrip.create(asset);
-                        default:
-                            throw new Error("Unsupported asset type: '" + asset.type + "'");
-                    }
-                } catch (e) {
-                    throw new Error("Error occurred while trying to load asset: " + e.message);
+                        } catch (e) {
+                            throw new Error("Verification of triangle-strip asset failed: " + e.message);
+                        }
+                        return triangleStrip.create(asset);
+                    default:
+                        throw new Error("Unsupported asset type: '" + asset.type + "'");
                 }
             }
         };
