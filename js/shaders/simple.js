@@ -19,16 +19,16 @@ define(
                 gl.uniformMatrix4fv(uniformModelView, false, this.uniforms.modelView);
 
                 for (var i = 0; i < geometries.length; i++) {
-                    geometries[i].draw({
-                        attributes: {
-                            position: {
-                                index: attributePosition
-                            }
-                        }
-                    });
+                    geometries[i].draw();
                 }
 
                 gl.useProgram(null);
+            },
+
+            attributes: {
+                position: {
+                    index: attributePosition
+                }
             },
 
             uniforms: {

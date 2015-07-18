@@ -38,8 +38,9 @@ define(
 
             create: function (asset) {
                 // Configuration
+                var shader = shaderManager.getByName(asset.shader);
                 var trianglesCount = asset.count;
-                var binder = bufferBinder.create();
+                var binder = bufferBinder.create(shader);
 
                 // Flatten vertices and add draw function (if present)
                 if (asset.hasOwnProperty("vertexSize")) {
@@ -48,10 +49,10 @@ define(
                 }
 
                 return {
-                    shader: shaderManager.getByName(asset.shader),
+                    shader: shader,
 
-                    draw: function (shaderInfo) {
-                        binder.bindAll(shaderInfo);
+                    draw: function () {
+                        binder.bindAll();
                         gl.drawArrays(gl.TRIANGLE_STRIP, 0, trianglesCount + 2);
                     }
                 };
