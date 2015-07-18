@@ -3,7 +3,7 @@
  */
 
 define(
-    ["gl", "assets/triangle-strip"],
+    ["gl", "assets/two-triangles"],
     function (gl, asset) {
         var mvMatrix = mat4.create();
         var pMatrix = mat4.create();

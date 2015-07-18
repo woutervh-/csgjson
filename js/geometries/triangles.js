@@ -3,8 +3,8 @@
  */
 
 define(
-    ["gl", "shaders/manager"],
-    function (gl, shaderManager) {
+    ["gl", "shaders/manager", "geometries/buffer-binder"],
+    function (gl, shaderManager, bufferBinder) {
         return {
             verify: function (asset) {
                 // For the verification of the number of triangles
@@ -77,29 +77,16 @@ define(
 
             create: function (asset) {
                 // Configuration
+                var shader = shaderManager.getByName(asset.shader);
                 var trianglesCount = asset.count;
-                var bindFunctions = [];
+                var binder = bufferBinder.create(shader);
 
                 // Flatten vertices and add draw function (if present)
                 if (asset.hasOwnProperty("vertexSize")) {
                     var vertices = [].concat.apply([], asset.vertices.map(function (triangle) {
                         return [].concat.apply([], triangle);
                     }));
-
-                    var vertexBuffer = gl.createBuffer();
-                    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
-                    bindFunctions.push(function (shaderInfo) {
-                        if (shaderInfo.attributes.hasOwnProperty("position")) {
-                            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-                            gl.vertexAttribPointer(shaderInfo.attributes.position.index, asset.vertexSize, gl.FLOAT, false, 0, 0);
-                            gl.bindBuffer(gl.ARRAY_BUFFER, null);
-                        } else {
-                            console.warn("Vertices property is present in asset but is not supported by the specified shader");
-                        }
-                    });
+                    binder.add(vertices, asset.vertexSize, "position");
                 }
 
                 // Flatten colors and add draw function (if present)
@@ -107,32 +94,14 @@ define(
                     var colors = [].concat.apply([], asset.colors.map(function (triangle) {
                         return [].concat.apply([], triangle);
                     }));
-
-                    var colorBuffer = gl.createBuffer();
-                    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
-                    bindFunctions.push(function (shaderInfo) {
-                        if (shaderInfo.attributes.hasOwnProperty("color")) {
-                            gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-                            gl.vertexAttribPointer(shaderInfo.attributes.color.index, asset.colorSize, gl.FLOAT, false, 0, 0);
-                            gl.bindBuffer(gl.ARRAY_BUFFER, null);
-                        } else {
-                            console.warn("Colors property is present in asset but is not supported by the specified shader");
-                        }
-                    });
+                    binder.add(colors, asset.colorSize, "color");
                 }
 
                 return {
-                    shader: shaderManager.getByName(asset.shader),
+                    shader: shader,
 
                     draw: function (shaderInfo) {
-                        for (var i = 0; i < bindFunctions.length; i++) {
-                            var bindFunction = bindFunctions[i];
-                            bindFunction(shaderInfo);
-                        }
-
+                        binder.bindAll();
                         gl.drawArrays(gl.TRIANGLES, 0, trianglesCount * 3);
                     }
                 };
