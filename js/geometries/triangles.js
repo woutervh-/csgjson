@@ -56,17 +56,27 @@ define(["gl"], function (gl) {
                 return [].concat.apply([], triangle.colors);
             }));
 
-            var buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            var vertexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+            var colorBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
             gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
             return {
                 draw: function (shaderInfo) {
-                    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
                     gl.vertexAttribPointer(shaderInfo.attributes.position.index, expectedVertexSize, gl.FLOAT, false, 0, 0);
-                    gl.drawArrays(gl.TRIANGLES, 0, actualTrianglesCount * 3);
                     gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+                    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+                    gl.vertexAttribPointer(shaderInfo.attributes.color.index, expectedColorSize, gl.FLOAT, false, 0, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+                    gl.drawArrays(gl.TRIANGLES, 0, actualTrianglesCount * 3);
                 }
             };
         }
