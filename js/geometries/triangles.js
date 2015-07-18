@@ -3,29 +3,35 @@ define(
     function (gl, shaderManager) {
         return {
             verify: function (asset) {
-                // Verify number of triangles
+                // For the verification of the number of triangles
                 var expectedTrianglesCount = asset.count;
-                var actualTrianglesCount = asset.triangles.length;
-                if (expectedTrianglesCount !== actualTrianglesCount) {
-                    throw new Error("Error creating triangles geometry: expected " + expectedTrianglesCount + " triangles but found " + actualTrianglesCount);
-                }
 
                 // Verify vertices (if present)
                 if (asset.hasOwnProperty("vertexSize")) {
+                    var actualTrianglesCount = asset.vertices.length;
+                    if (expectedTrianglesCount !== actualTrianglesCount) {
+                        throw new Error("Expected " + expectedTrianglesCount + " triangles in vertices property but found " + actualTrianglesCount);
+                    }
+
                     var expectedVertexSize = asset.vertexSize;
                     for (var i = 0; i < actualTrianglesCount; i++) {
-                        var triangle = asset.triangles[i];
+                        var triangle = asset.vertices[i];
+
+                        if (triangle.length !== 3) {
+                            throw new Error("Expected triangle with 3 vertices but found " + triangle.length + " vertices");
+                        }
+
                         for (var j = 0; j < 3; j++) {
-                            var vertex = triangle.vertices[j];
+                            var vertex = triangle[j];
                             var actualVertexSize = vertex.length;
 
                             if (expectedVertexSize !== actualVertexSize) {
-                                throw new Error("Error creating triangles geometry: expected vertex of size " + expectedVertexSize + " but was " + actualVertexSize);
+                                throw new Error("Expected vertex of size " + expectedVertexSize + " but was " + actualVertexSize);
                             }
 
                             for (var k = 0; k < actualVertexSize; k++) {
                                 if (isNaN(vertex[k])) {
-                                    throw new Error("Error creating triangles geometry: expected number in vertex but found '" + vertex[k] + "'");
+                                    throw new Error("Expected number in vertex but found '" + vertex[k] + "'");
                                 }
                             }
                         }
@@ -34,20 +40,30 @@ define(
 
                 // Verify colors (if present)
                 if (asset.hasOwnProperty("colorSize")) {
+                    var actualTrianglesCount = asset.colors.length;
+                    if (expectedTrianglesCount !== actualTrianglesCount) {
+                        throw new Error("Expected " + expectedTrianglesCount + " triangles in colors property but found " + actualTrianglesCount);
+                    }
+
                     var expectedColorSize = asset.colorSize;
                     for (var i = 0; i < actualTrianglesCount; i++) {
-                        var triangle = asset.triangles[i];
+                        var triangle = asset.colors[i];
+
+                        if (triangle.length !== 3) {
+                            throw new Error("Expected triangle with 3 colors but found " + triangle.length + " colors");
+                        }
+
                         for (var j = 0; j < 3; j++) {
-                            var color = triangle.colors[j];
+                            var color = triangle[j];
                             var actualColorSize = color.length;
 
                             if (expectedColorSize !== actualColorSize) {
-                                throw new Error("Error creating triangles geometry: expected color of size " + expectedColorSize + " but was " + actualColorSize);
+                                throw new Error("Expected color of size " + expectedColorSize + " but was " + actualColorSize);
                             }
 
                             for (var k = 0; k < actualColorSize; k++) {
                                 if (isNaN(color[k])) {
-                                    throw new Error("Error creating triangles geometry: expected number in color but found '" + color[k] + "'");
+                                    throw new Error("Expected number in color but found '" + color[k] + "'");
                                 }
                             }
                         }
@@ -62,8 +78,8 @@ define(
 
                 // Flatten vertices and add draw function (if present)
                 if (asset.hasOwnProperty("vertexSize")) {
-                    var vertices = [].concat.apply([], asset.triangles.map(function (triangle) {
-                        return [].concat.apply([], triangle.vertices);
+                    var vertices = [].concat.apply([], asset.vertices.map(function (triangle) {
+                        return [].concat.apply([], triangle);
                     }));
 
                     var vertexBuffer = gl.createBuffer();
@@ -80,8 +96,8 @@ define(
 
                 // Flatten colors and add draw function (if present)
                 if (asset.hasOwnProperty("colorSize")) {
-                    var colors = [].concat.apply([], asset.triangles.map(function (triangle) {
-                        return [].concat.apply([], triangle.colors);
+                    var colors = [].concat.apply([], asset.colors.map(function (triangle) {
+                        return [].concat.apply([], triangle);
                     }));
 
                     var colorBuffer = gl.createBuffer();
