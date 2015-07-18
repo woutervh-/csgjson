@@ -8,13 +8,9 @@ define(["gl", "geometries/triangle", "shaders/simple"], function (gl, triangle, 
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    shader.use();
-    shader.attributes.position.set(triangle);
-    shader.uniforms.projection.set(pMatrix);
-    shader.uniforms.modelView.set(mvMatrix);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, triangle);
-    gl.drawArrays(gl.TRIANGLES, 0, triangle.numItems);
+    shader.uniforms.projection = pMatrix;
+    shader.uniforms.modelView = mvMatrix;
+    shader.render([triangle]);
 
     if (gl.getError() != 0) {
         console.log("WebGL generated error code: " + gl.getError());

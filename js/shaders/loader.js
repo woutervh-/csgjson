@@ -1,6 +1,6 @@
 define(["gl"], function (gl) {
         return {
-            load: function (vertexShaderCode, fragmentShaderCode) {
+            createProgram: function (vertexShaderCode, fragmentShaderCode) {
                 var vertexShader = gl.createShader(gl.VERTEX_SHADER);
                 gl.shaderSource(vertexShader, vertexShaderCode);
                 gl.compileShader(vertexShader);
