@@ -25,6 +25,9 @@ define(
             var shader = asset.shader;
             shader.uniforms.projection = pMatrix;
             shader.uniforms.modelView = mvMatrix;
+            shader.uniforms.eye = camera.getEye();
+            shader.uniforms.center = camera.getCenter();
+            shader.uniforms.up = camera.getUp();
             shader.render([asset]);
         })();
 
