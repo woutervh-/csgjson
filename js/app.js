@@ -16,7 +16,7 @@ define(
             controller.tick();
 
             mat4.identity(mvMatrix);
-            mat4.mul(mvMatrix, mvMatrix, camera.getViewMatrix());
+            mat4.multiply(mvMatrix, mvMatrix, camera.getViewMatrix());
             mat4.translate(mvMatrix, mvMatrix, vec3.fromValues(0.0, 0.0, -7.0));
 
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

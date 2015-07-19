@@ -10,8 +10,8 @@ define(
         var mouseDown = false;
         var keys = {
             "W": false,
-            "A": false,
             "S": false,
+            "A": false,
             "D": false,
             "Q": false,
             "E": false
@@ -37,11 +37,11 @@ define(
             }
         });
 
-        canvas.addEventListener("keydown", function (event) {
+        document.addEventListener("keydown", function (event) {
             keys[String.fromCharCode(event.keyCode)] = true;
         });
 
-        canvas.addEventListener("keyup", function (event) {
+        document.addEventListener("keyup", function (event) {
             keys[String.fromCharCode(event.keyCode)] = false;
         });
 
