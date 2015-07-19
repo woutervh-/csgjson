@@ -3,7 +3,7 @@
  */
 
 define(
-    ["gl", "assets/two-triangles", "camera/camera", "camera/controller"],
+    ["gl", "assets/unit-square", "camera/camera", "camera/controller"],
     function (gl, asset, camera, controller) {
         var mvMatrix = mat4.create();
         var pMatrix = mat4.create();
@@ -17,7 +17,7 @@ define(
 
             mat4.identity(mvMatrix);
             mat4.multiply(mvMatrix, mvMatrix, camera.getViewMatrix());
-            mat4.translate(mvMatrix, mvMatrix, vec3.fromValues(0.0, 0.0, -7.0));
+            mat4.translate(mvMatrix, mvMatrix, vec3.fromValues(0.0, 0.0, -2.0));
 
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
