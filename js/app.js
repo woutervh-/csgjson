@@ -8,8 +8,7 @@ define(
         var mvMatrix = mat4.create();
         var pMatrix = mat4.create();
 
-        mat4.perspective(pMatrix, 45.0, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
-        camera.increaseYaw(Math.PI);
+        mat4.perspective(pMatrix, 45.0 / 180.0 * Math.PI, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
 
         (function loop() {
             window.requestAnimationFrame(loop);

@@ -4,7 +4,7 @@
 
 define([], function () {
         var pitch = 0.0;
-        var yaw = 0.0;
+        var yaw = Math.PI;
         var eye = vec3.fromValues(0.0, 0.0, 0.0);
         var center = vec3.create();
         var up = vec3.fromValues(0.0, 1.0, 0.0);
@@ -17,7 +17,7 @@ define([], function () {
             var cy = Math.cos(yaw);
             center[0] = eye[0] + -cp * sy;
             center[1] = eye[1] + sp;
-            center[2] = eye[2] + cp * cy
+            center[2] = eye[2] + cp * cy;
         }
 
         return {
