@@ -22,6 +22,7 @@ define(
                     geometries[i].draw();
                 }
 
+                gl.disableVertexAttribArray(attributePosition);
                 gl.useProgram(null);
             },
 

@@ -24,6 +24,8 @@ define(
                     geometries[i].draw();
                 }
 
+                gl.disableVertexAttribArray(attributePosition);
+                gl.disableVertexAttribArray(attributeColor);
                 gl.useProgram(null);
             },
 
