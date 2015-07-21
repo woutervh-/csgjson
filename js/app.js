@@ -9,6 +9,11 @@ define(
         var pMatrix = mat4.create();
 
         mat4.perspective(pMatrix, 45.0 / 180.0 * Math.PI, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
+        camera.forward(-3.0);
+        camera.left(3.0);
+        camera.up(3.0);
+        camera.increasePitch(-25.0 / 180.0 * Math.PI);
+        camera.increaseYaw(45.0 / 180.0 * Math.PI);
 
         (function loop() {
             window.requestAnimationFrame(loop);
