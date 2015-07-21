@@ -101,23 +101,23 @@ void main() {
     float planeT = plane(rayOrigin, rayDirection, planeCenter, planeNorm);
     float planeDiffuse = diffuse(rayOrigin, rayDirection, planeT, light, planeNormal(planeNorm));
 
-    float min = max_distance;
+    float minT = max_distance;
     vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
 
-    if(min_distance <= boxT && boxT <= min) {
-        min = boxT;
+    if(min_distance <= boxT && boxT <= minT) {
+        minT = boxT;
         color.rgb = vec3(0.1, 0.2, 0.3);
         color.rgb += vec3(0.5, 0.5, 0.5) * vec3(boxDiffuse, boxDiffuse, boxDiffuse);
     }
 
-    if(min_distance <= sphereT && sphereT <= min) {
-        min = sphereT;
+    if(min_distance <= sphereT && sphereT <= minT) {
+        minT = sphereT;
         color.rgb = vec3(0.3, 0.2, 0.1);
         color.rgb += vec3(0.5, 0.5, 0.5) * vec3(sphereDiffuse, sphereDiffuse, sphereDiffuse);
     }
 
-    if(min_distance <= planeT && planeT <= min) {
-        min = planeT;
+    if(min_distance <= planeT && planeT <= minT) {
+        minT = planeT;
         color.rgb = vec3(0.1, 0.3, 0.2);
         color.rgb += vec3(0.5, 0.5, 0.5) * vec3(planeDiffuse, planeDiffuse, planeDiffuse);
     }
