@@ -6,7 +6,7 @@ define(
     ["shaders/simple", "shaders/color", "shaders/csg"],
     function (simple, color, csg) {
         return {
-            getByName: function (name) {
+            getByType: function (name) {
                 switch (name) {
                     case "jr::shader::simple":
                         return simple;

@@ -38,7 +38,7 @@ define(
 
             create: function (asset) {
                 // Configuration
-                var shader = shaderManager.getByName(asset.shader);
+                var shader = shaderManager.getByType(asset.shader);
                 var trianglesCount = asset.count;
                 var binder = bufferBinder.create(shader);
 
