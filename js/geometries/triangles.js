@@ -100,7 +100,7 @@ define(
                 return {
                     shader: shader,
 
-                    draw: function (shaderInfo) {
+                    draw: function () {
                         binder.bindAll();
                         gl.drawArrays(gl.TRIANGLES, 0, trianglesCount * 3);
                     }
