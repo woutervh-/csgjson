@@ -6,8 +6,9 @@ define([], function () {
         var pitch = 0.0;
         var yaw = Math.PI;
         var eye = vec3.fromValues(0.0, 0.0, 0.0);
-        var center = vec3.create();
         var up = vec3.fromValues(0.0, 1.0, 0.0);
+        
+        var center = vec3.create();
         var viewMatrix = mat4.create();
 
         function updateCenter() {
