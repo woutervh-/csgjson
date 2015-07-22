@@ -11,38 +11,22 @@ define([], function () {
         var center = vec3.create();
         var viewMatrix = mat4.create();
 
-        function updateCenter() {
-            var sp = Math.sin(pitch);
-            var cp = Math.cos(pitch);
-            var sy = Math.sin(yaw);
-            var cy = Math.cos(yaw);
-            center[0] = eye[0] + -cp * sy;
-            center[1] = eye[1] + sp;
-            center[2] = eye[2] + cp * cy;
-        }
-
         return {
-            getEye: function () {
-                return eye;
-            },
-
-            getCenter: function () {
-                updateCenter();
-                return center;
-            },
-
-            getUp: function () {
-                return up;
-            },
-
             getViewMatrix: function () {
-                updateCenter();
+                var sp = Math.sin(pitch);
+                var cp = Math.cos(pitch);
+                var sy = Math.sin(yaw);
+                var cy = Math.cos(yaw);
+                center[0] = eye[0] + -cp * sy;
+                center[1] = eye[1] + sp;
+                center[2] = eye[2] + cp * cy;
                 mat4.lookAt(viewMatrix, eye, center, up);
                 return viewMatrix;
             },
 
             increasePitch: function (amount) {
                 pitch += amount;
+                pitch = Math.min(Math.max(pitch, -Math.PI / 2.0 + 0.01), Math.PI / 2.0 - 0.01);
             },
 
             increaseYaw: function (amount) {
