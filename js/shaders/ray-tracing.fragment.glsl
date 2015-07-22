@@ -72,6 +72,12 @@ float diffuse(vec3 intersection, vec3 light, vec3 normal) {
     return max(0.0, dot(normal, direction));
 }
 
+float specular(vec3 intersection, vec3 light, vec3 normal, vec3 rayDirection, float shininess) {
+    vec3 direction = normalize(light - intersection);
+    vec3 reflection = normalize(-reflect(direction, normal));
+    return pow(max(0.0, -dot(rayDirection, reflection)), shininess);
+}
+
 void main() {
     vec3 light = vec3(1.0, 3.0, 2.0);
     vec3 rayOrigin = vEye;
@@ -81,19 +87,24 @@ void main() {
     vec3 boxMax = vec3(1.0, 1.0, 1.0);
     float boxT = box(rayOrigin, rayDirection, boxMin, boxMax);
     vec3 boxIntersection = rayOrigin + rayDirection * boxT;
-    float boxDiffuse = diffuse(boxIntersection, light, boxNormal(boxIntersection, boxMin, boxMax));
+    vec3 boxNorm = boxNormal(boxIntersection, boxMin, boxMax);
+    float boxDiffuse = diffuse(boxIntersection, light, boxNorm);
+    float boxSpecular = specular(boxIntersection, light, boxNorm, rayDirection, 30.0);
 
     vec3 sphereCenter = vec3(0.0, 1.0, 0.0);
     float sphereRadius = 1.0;
     float sphereT = sphere(rayOrigin, rayDirection, sphereCenter, sphereRadius);
     vec3 sphereIntersection = rayOrigin + rayDirection * sphereT;
-    float sphereDiffuse = diffuse(sphereIntersection, light, sphereNormal(sphereIntersection, sphereCenter));
+    vec3 sphereNorm = sphereNormal(sphereIntersection, sphereCenter);
+    float sphereDiffuse = diffuse(sphereIntersection, light, sphereNorm);
+    float sphereSpecular = specular(sphereIntersection, light, sphereNorm, rayDirection, 20.0);
 
     vec3 planeCenter = vec3(0.0, 0.0, 0.0);
     vec3 planeNorm = vec3(0.0, 1.0, 0.0);
     float planeT = plane(rayOrigin, rayDirection, planeCenter, planeNorm);
     vec3 planeIntersection = rayOrigin + rayDirection * planeT;
-    float planeDiffuse = diffuse(planeIntersection, light, planeNormal(planeNorm));
+    float planeDiffuse = diffuse(planeIntersection, light, planeNorm);
+    float planeSpecular = specular(planeIntersection, light, planeNorm, rayDirection, 10.0);
 
     float minT = max_distance;
     vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
@@ -102,18 +113,21 @@ void main() {
         minT = boxT;
         color.rgb = vec3(0.1, 0.2, 0.3);
         color.rgb += vec3(0.5, 0.5, 0.5) * boxDiffuse;
+        color.rgb += vec3(0.5, 0.5, 0.5) * boxSpecular;
     }
 
     if(min_distance <= sphereT && sphereT <= minT) {
         minT = sphereT;
         color.rgb = vec3(0.3, 0.2, 0.1);
         color.rgb += vec3(0.5, 0.5, 0.5) * sphereDiffuse;
+        color.rgb += vec3(0.5, 0.5, 0.5) * sphereSpecular;
     }
 
     if(min_distance <= planeT && planeT <= minT) {
         minT = planeT;
         color.rgb = vec3(0.1, 0.3, 0.2);
         color.rgb += vec3(0.5, 0.5, 0.5) * planeDiffuse;
+        color.rgb += vec3(0.5, 0.5, 0.5) * planeSpecular;
     }
 
     gl_FragColor = color;
