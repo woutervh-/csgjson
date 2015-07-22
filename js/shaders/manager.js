@@ -3,8 +3,8 @@
  */
 
 define(
-    ["shaders/simple", "shaders/color", "shaders/ray-tracing"],
-    function (simple, color, rayTracing) {
+    ["shaders/simple", "shaders/color", "shaders/ray-tracing", "shaders/ray-marching"],
+    function (simple, color, rayTracing, rayMarching) {
         return {
             getByType: function (name) {
                 switch (name) {
@@ -14,6 +14,8 @@ define(
                         return color;
                     case "jr::shader::ray-tracing":
                         return rayTracing;
+                    case "jr::shader::ray-marching":
+                        return rayMarching;
                     default:
                         throw new Error("Could not find shader with name: '" + name + "'");
                 }

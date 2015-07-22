@@ -1,6 +1,6 @@
 {
   "type": "jr::geometry::triangle-strip",
-  "shader": "jr::shader::ray-tracing",
+  "shader": "jr::shader::ray-marching",
   "count": 2,
   "vertexSize": 2,
   "vertices": [
