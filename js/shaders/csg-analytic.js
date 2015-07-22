@@ -8,9 +8,6 @@ define(
         var program = loader.createProgram(vertexShaderCode, fragmentShaderCode);
 
         var attributePosition = gl.getAttribLocation(program, "position");
-        var uniformEye = gl.getUniformLocation(program, "eye");
-        var uniformCenter = gl.getUniformLocation(program, "center");
-        var uniformUp = gl.getUniformLocation(program, "up");
         var uniformProjection = gl.getUniformLocation(program, "projection");
         var uniformModelView = gl.getUniformLocation(program, "modelView");
         var uniformInverseModelView = gl.getUniformLocation(program, "inverseModelView");
@@ -19,9 +16,6 @@ define(
             render: function (geometries) {
                 gl.useProgram(program);
                 gl.enableVertexAttribArray(attributePosition);
-                gl.uniform3fv(uniformEye, this.uniforms.eye);
-                gl.uniform3fv(uniformCenter, this.uniforms.center);
-                gl.uniform3fv(uniformUp, this.uniforms.up);
                 gl.uniformMatrix4fv(uniformProjection, false, this.uniforms.projection);
                 gl.uniformMatrix4fv(uniformModelView, false, this.uniforms.modelView);
                 gl.uniformMatrix4fv(uniformInverseModelView, false, this.uniforms.inverseModelView);
@@ -41,9 +35,6 @@ define(
             },
 
             uniforms: {
-                eye: null,
-                center: null,
-                up: null,
                 projection: null,
                 modelView: null,
                 inverseModelView: null
