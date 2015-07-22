@@ -5,6 +5,7 @@
 define(
     ["canvas", "camera/camera"],
     function (canvas, camera) {
+        var speed = 0.05;
         var oldX = -1;
         var oldY = -1;
         var mouseDown = false;
@@ -16,6 +17,14 @@ define(
             "Q": false,
             "E": false
         };
+
+        canvas.addEventListener("wheel", function (event) {
+            if(event.wheelDelta > 0) {
+                speed *= 1.1;
+            } else {
+                speed /= 1.1;
+            }
+        });
 
         canvas.addEventListener("mousemove", function (event) {
             var x = event.clientX;
@@ -56,22 +65,22 @@ define(
         return {
             tick: function () {
                 if (keys["W"]) {
-                    camera.forward(0.05);
+                    camera.forward(speed);
                 }
                 if (keys["S"]) {
-                    camera.forward(-0.05);
+                    camera.forward(-speed);
                 }
                 if (keys["A"]) {
-                    camera.left(0.05);
+                    camera.left(speed);
                 }
                 if (keys["D"]) {
-                    camera.left(-0.05);
+                    camera.left(-speed);
                 }
                 if (keys["Q"]) {
-                    camera.up(0.05);
+                    camera.up(speed);
                 }
                 if (keys["E"]) {
-                    camera.up(-0.05);
+                    camera.up(-speed);
                 }
             }
         };
