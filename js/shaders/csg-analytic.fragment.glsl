@@ -25,8 +25,8 @@ float sphere(vec3 ro, vec3 rd, vec3 sc, float sr) {
     return min(t1, t2);
 }
 
-vec3 sphereNormal(vec3 ro, vec3 rd, vec3 sc, float t) {
-    return normalize(ro + rd * t - sc);
+vec3 sphereNormal(vec3 intersection, vec3 sc) {
+    return normalize(intersection - sc);
 }
 
 float plane(vec3 ro, vec3 rd, vec3 pc, vec3 pn) {
@@ -58,8 +58,7 @@ float box(vec3 ro, vec3 rd, vec3 bmin, vec3 bmax) {
     return tmin * step(tmin, tmax);
 }
 
-vec3 boxNormal(vec3 ro, vec3 rd, float t, vec3 bmin, vec3 bmax) {
-    vec3 intersection = ro + rd * t;
+vec3 boxNormal(vec3 intersection, vec3 bmin, vec3 bmax) {
     vec3 bcenter = (bmin + bmax) / 2.0;
     vec3 normalDirection = intersection - bcenter;
     vec3 absoluteNormalDirection = abs(normalDirection);
@@ -68,8 +67,7 @@ vec3 boxNormal(vec3 ro, vec3 rd, float t, vec3 bmin, vec3 bmax) {
     return normalize(planeDirection);
 }
 
-float diffuse(vec3 ro, vec3 rd, float t, vec3 light, vec3 normal) {
-    vec3 intersection = ro + rd * t;
+float diffuse(vec3 intersection, vec3 light, vec3 normal) {
     vec3 direction = normalize(light - intersection);
     return max(0.0, dot(normal, direction));
 }
@@ -82,17 +80,20 @@ void main() {
     vec3 boxMin = vec3(-1.0, -1.0, -1.0);
     vec3 boxMax = vec3(1.0, 1.0, 1.0);
     float boxT = box(rayOrigin, rayDirection, boxMin, boxMax);
-    float boxDiffuse = diffuse(rayOrigin, rayDirection, boxT, light, boxNormal(rayOrigin, rayDirection, boxT, boxMin, boxMax));
+    vec3 boxIntersection = rayOrigin + rayDirection * boxT;
+    float boxDiffuse = diffuse(boxIntersection, light, boxNormal(boxIntersection, boxMin, boxMax));
 
     vec3 sphereCenter = vec3(0.0, 1.0, 0.0);
     float sphereRadius = 1.0;
     float sphereT = sphere(rayOrigin, rayDirection, sphereCenter, sphereRadius);
-    float sphereDiffuse = diffuse(rayOrigin, rayDirection, sphereT, light, sphereNormal(rayOrigin, rayDirection, sphereCenter, sphereT));
+    vec3 sphereIntersection = rayOrigin + rayDirection * sphereT;
+    float sphereDiffuse = diffuse(sphereIntersection, light, sphereNormal(sphereIntersection, sphereCenter));
 
     vec3 planeCenter = vec3(0.0, 0.0, 0.0);
     vec3 planeNorm = vec3(0.0, 1.0, 0.0);
     float planeT = plane(rayOrigin, rayDirection, planeCenter, planeNorm);
-    float planeDiffuse = diffuse(rayOrigin, rayDirection, planeT, light, planeNormal(planeNorm));
+    vec3 planeIntersection = rayOrigin + rayDirection * planeT;
+    float planeDiffuse = diffuse(planeIntersection, light, planeNormal(planeNorm));
 
     float minT = max_distance;
     vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
