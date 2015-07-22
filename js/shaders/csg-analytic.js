@@ -13,6 +13,7 @@ define(
         var uniformUp = gl.getUniformLocation(program, "up");
         var uniformProjection = gl.getUniformLocation(program, "projection");
         var uniformModelView = gl.getUniformLocation(program, "modelView");
+        var uniformInverseModelView = gl.getUniformLocation(program, "inverseModelView");
 
         return {
             render: function (geometries) {
@@ -23,6 +24,7 @@ define(
                 gl.uniform3fv(uniformUp, this.uniforms.up);
                 gl.uniformMatrix4fv(uniformProjection, false, this.uniforms.projection);
                 gl.uniformMatrix4fv(uniformModelView, false, this.uniforms.modelView);
+                gl.uniformMatrix4fv(uniformInverseModelView, false, this.uniforms.inverseModelView);
 
                 for (var i = 0; i < geometries.length; i++) {
                     geometries[i].draw();
@@ -43,7 +45,8 @@ define(
                 center: null,
                 up: null,
                 projection: null,
-                modelView: null
+                modelView: null,
+                inverseModelView: null
             }
         };
     }

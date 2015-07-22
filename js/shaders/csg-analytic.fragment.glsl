@@ -14,6 +14,7 @@ varying vec3 vCenter;
 varying vec3 vUp;
 varying mat4 vProjection;
 varying mat4 vModelView;
+varying mat4 vInverseModelView;
 
 float sphere(vec3 ro, vec3 rd, vec3 sc, float sr) {
     // Assume rd is normalized
@@ -82,8 +83,8 @@ void main() {
     float aspect = 1.0 / vProjection[0][0] * f;
 
     vec3 light = vec3(1.0, 3.0, 2.0);
-    vec3 rayOrigin = vEye;
-    // vec3 rayOrigin = vModelView[];
+    // vec3 rayOrigin = vEye;
+    vec3 rayOrigin = vInverseModelView[3].xyz;
     vec3 rayDirection = normalize(vec3(vPosition * vec2(aspect, 1.0), -f)) * mat3(vModelView);
 
     vec3 boxMin = vec3(-1.0, -1.0, -1.0);
