@@ -101,19 +101,19 @@ void main() {
     if(min_distance <= boxT && boxT <= minT) {
         minT = boxT;
         color.rgb = vec3(0.1, 0.2, 0.3);
-        color.rgb += vec3(0.5, 0.5, 0.5) * vec3(boxDiffuse, boxDiffuse, boxDiffuse);
+        color.rgb += vec3(0.5, 0.5, 0.5) * boxDiffuse;
     }
 
     if(min_distance <= sphereT && sphereT <= minT) {
         minT = sphereT;
         color.rgb = vec3(0.3, 0.2, 0.1);
-        color.rgb += vec3(0.5, 0.5, 0.5) * vec3(sphereDiffuse, sphereDiffuse, sphereDiffuse);
+        color.rgb += vec3(0.5, 0.5, 0.5) * sphereDiffuse;
     }
 
     if(min_distance <= planeT && planeT <= minT) {
         minT = planeT;
         color.rgb = vec3(0.1, 0.3, 0.2);
-        color.rgb += vec3(0.5, 0.5, 0.5) * vec3(planeDiffuse, planeDiffuse, planeDiffuse);
+        color.rgb += vec3(0.5, 0.5, 0.5) * planeDiffuse;
     }
 
     gl_FragColor = color;
