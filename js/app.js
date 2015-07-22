@@ -3,7 +3,7 @@
  */
 
 define(
-    ["gl", "assets/unit-cube", "camera/camera", "camera/controller"],
+    ["gl", "assets/unit-square", "camera/camera", "camera/controller"],
     function (gl, asset, camera, controller) {
         var mvMatrix = mat4.create();
         var pMatrix = mat4.create();

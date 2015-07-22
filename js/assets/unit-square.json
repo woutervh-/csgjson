@@ -1,6 +1,6 @@
 {
   "type": "jr::geometry::triangle-strip",
-  "shader": "jr::shader::csg",
+  "shader": "jr::shader::csg-analytic",
   "count": 2,
   "vertexSize": 2,
   "vertices": [

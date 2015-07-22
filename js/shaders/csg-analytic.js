@@ -3,7 +3,7 @@
  */
 
 define(
-    ["gl", "shaders/loader", "text!shaders/csg.vertex.glsl", "text!shaders/csg.fragment.glsl"],
+    ["gl", "shaders/loader", "text!shaders/csg-analytic.vertex.glsl", "text!shaders/csg-analytic.fragment.glsl"],
     function (gl, loader, vertexShaderCode, fragmentShaderCode) {
         var program = loader.createProgram(vertexShaderCode, fragmentShaderCode);
 
