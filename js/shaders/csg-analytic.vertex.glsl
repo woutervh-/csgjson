@@ -2,8 +2,6 @@
  * Copyright 2015 Wouter van Heeswijk
  */
 
-#define PI 3.1415926535897932384626433832795
-
 attribute vec2 position;
 
 uniform mat4 projection;
@@ -11,14 +9,22 @@ uniform mat4 modelView;
 uniform mat4 inverseModelView;
 
 varying vec2 vPosition;
-varying mat4 vProjection;
-varying mat4 vModelView;
-varying mat4 vInverseModelView;
+varying float vFocalLength;
+varying float vAspectRatio;
+varying vec3 vEye;
+varying mat3 vModelView;
 
 void main() {
     vPosition = position;
-    vProjection = projection;
-    vModelView = modelView;
-    vInverseModelView = inverseModelView;
+
+    // Get focal length and aspect ratio from projection matrix
+    vFocalLength = projection[1][1];
+    vAspectRatio = 1.0 / projection[0][0] * projection[1][1];
+
+    // Get camera position from inverse model-view matrix
+    vEye = inverseModelView[3].xyz;
+
+    vModelView = mat3(modelView);
+
     gl_Position = vec4(vPosition, 0.0, 1.0);
 }

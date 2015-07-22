@@ -2,16 +2,16 @@
  * Copyright 2015 Wouter van Heeswijk
  */
 
-#define PI 3.1415926535897932384626433832795
 #define min_distance 0.1
 #define max_distance 20.0
 
 precision mediump float;
 
 varying vec2 vPosition;
-varying mat4 vProjection;
-varying mat4 vModelView;
-varying mat4 vInverseModelView;
+varying float vFocalLength;
+varying float vAspectRatio;
+varying vec3 vEye;
+varying mat3 vModelView;
 
 float sphere(vec3 ro, vec3 rd, vec3 sc, float sr) {
     // Assume rd is normalized
@@ -75,13 +75,9 @@ float diffuse(vec3 ro, vec3 rd, float t, vec3 light, vec3 normal) {
 }
 
 void main() {
-    // Get focal length and aspect ratio from projection matrix
-    float f = vProjection[1][1];
-    float aspect = 1.0 / vProjection[0][0] * f;
-
     vec3 light = vec3(1.0, 3.0, 2.0);
-    vec3 rayOrigin = vInverseModelView[3].xyz;
-    vec3 rayDirection = normalize(vec3(vPosition * vec2(aspect, 1.0), -f)) * mat3(vModelView);
+    vec3 rayOrigin = vEye;
+    vec3 rayDirection = normalize(vec3(vPosition * vec2(vAspectRatio, 1.0), -vFocalLength)) * vModelView;
 
     vec3 boxMin = vec3(-1.0, -1.0, -1.0);
     vec3 boxMax = vec3(1.0, 1.0, 1.0);
