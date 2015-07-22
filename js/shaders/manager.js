@@ -3,8 +3,8 @@
  */
 
 define(
-    ["shaders/simple", "shaders/color", "shaders/csg-analytic"],
-    function (simple, color, csgAnalytic) {
+    ["shaders/simple", "shaders/color", "shaders/ray-tracing"],
+    function (simple, color, rayTracing) {
         return {
             getByType: function (name) {
                 switch (name) {
@@ -12,8 +12,8 @@ define(
                         return simple;
                     case "jr::shader::color":
                         return color;
-                    case "jr::shader::csg-analytic":
-                        return csgAnalytic;
+                    case "jr::shader::ray-tracing":
+                        return rayTracing;
                     default:
                         throw new Error("Could not find shader with name: '" + name + "'");
                 }
