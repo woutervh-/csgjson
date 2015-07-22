@@ -14,6 +14,18 @@ define(
 
         return {
             render: function (geometries) {
+                if(this.uniforms.projection == null) {
+                    throw new Error("Uniform not set: 'projection'");
+                }
+
+                if(this.uniforms.modelView == null) {
+                    throw new Error("Uniform not set: 'modelView'");
+                }
+
+                if(this.uniforms.inverseModelView == null) {
+                    throw new Error("Uniform not set: 'inverseModelView'");
+                }
+
                 gl.useProgram(program);
                 gl.enableVertexAttribArray(attributePosition);
                 gl.uniformMatrix4fv(uniformProjection, false, this.uniforms.projection);
